@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import Link from 'next/link'
 
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import useCandyMachine from "../hooks/useCandyMachine";
@@ -36,28 +37,38 @@ export default function Home() {
   }, []);
 
   const MintMany = () => {
-    const [mintCount, setMintCount] = useState(5);
+    const [mintCount, setMintCount] = useState(1);
 
     return (
       <>
+      <div></div>
+      <div></div>
+
         <button
           onClick={() => startMintMultiple(mintCount)}
           disabled={isMinting}
-          className="px-4 py-2 mx-auto font-bold text-white transition-opacity rounded-lg hover:opacity-70 bg-gradient-to-br from-green-300 via-blue-500 to-purple-600"
+          className="px-10 py-5 mx-1 font-bold text-white transition-opacity rounded-lg hover:opacity-75 bg-gradient-to-br from-blue-100 via-blue-500 to-blue-100"
         >
-          {isMinting ? "loading" : `mint ${mintCount}`}
+          {isMinting ? "LOADING" : `MINT ${mintCount} RUFFLIFE RESCUES`}
         </button>
-
+        <div></div>
+        <div></div>
         <input
           disabled={isMinting}
           type="number"
-          min={2}
-          max={10}
+          min={1}
+          max={100}
           className="px-2 mx-auto mt-5 font-bold text-white bg-gray-500"
           value={mintCount}
           onChange={(e) => setMintCount((e.target as any).value)}
         />
-        <p className="mx-auto mt-2">min 2; max 10;</p>
+        <p className="mx-auto mt-2">Mint Up To 100 RuffLife NFTs</p>
+          <img
+            src={`/candy.gif`}
+            height={250}
+            width={250}
+            alt="RuffLife GIF" 
+          />
       </>
     );
   };
@@ -65,7 +76,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>get a weenee</title>
+        <title>RuffLife Minting Dapp</title>
         <meta
           name="description"
           content="Simplified NextJs with typescript example app integrated with Metaplex's Candy Machine"
@@ -73,38 +84,29 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex flex-col items-center min-h-screen mx-6">
+      <div className="flex flex-col items-center min-h-screen mx-5">
         <Toaster />
-        <div className="flex items-center justify-between w-full mt-3">
-          <h1 className="text-2xl font-bold">lil weenee hut jr</h1>
+        <div className="flex items-center justify-between w-full mt-0">
+          <Link href="https://rufflife.io/">
+            <img
+                src={`/logo.svg`}
+                height={125}
+                width={125}
+                alt="RuffLife" 
+            />
+          </Link>
+
           <div className="flex items-center">
             {connected && (
               <div className="flex items-end mr-2">
-                <p className="text-xs text-gray-400">balance</p>
-                <p className="mx-1 font-bold leading-none">
-                  {balance.toFixed(2)}
-                </p>
-                <p
-                  className="font-bold leading-none text-transparent bg-clip-text"
-                  style={{
-                    backgroundImage: `linear-gradient(to bottom right, #00FFA3, #03E1FF, #DC1FFF)`,
-                  }}
-                >
-                  SOL
-                </p>
+              
               </div>
             )}
             <WalletMultiButton />
           </div>
         </div>
-        {connected && (
-          <p className="mr-auto text-sm">
-            <span className="font-bold">available / minted / total:</span>{" "}
-            {nftsData.itemsRemaining}/{nftsData.itemsRedeemed}/
-            {nftsData.itemsAvailable}
-          </p>
-        )}
-        <div className="flex items-start justify-center w-11/12 my-10">
+        
+        <div className="flex items-start justify-center w-11/12">
           {connected ? (
             <>
               {new Date(mintStartDate).getTime() < Date.now() ? (
@@ -113,18 +115,22 @@ export default function Home() {
                     <p>SOLD OUT</p>
                   ) : (
                     <>
-                      <div className="flex flex-col w-1/2">
-                        <h1 className="mb-10 text-3xl font-bold">Mint One</h1>
-                        <button
-                          onClick={startMint}
-                          disabled={isMinting}
-                          className="px-4 py-2 mx-auto font-bold text-white transition-opacity rounded-lg hover:opacity-70 bg-gradient-to-br from-green-300 via-blue-500 to-purple-600"
-                        >
-                          {isMinting ? "loading" : "mint 1"}
-                        </button>
-                      </div>
-                      <div className="flex flex-col w-1/2">
-                        <h1 className="mb-10 text-3xl font-bold">mint multiple</h1>
+                      <div className="flex flex-col justify-center items-center space-y-2">
+                        <img
+                          src={`/logo.svg`}
+                          height={200}
+                          width={200}
+                          alt="RuffLife" 
+                        />
+                        <h1 className="mb-5 text-3xl font-bold center">ADOPT YOUR RUFFLIFE RESCUES</h1>
+                          <div className="flex flex-col justify-center items-center flex-1 space-y-2">
+                            {connected && (
+                            <h1 className="text-2xl font-bold">
+                              <span className="flex flex-col justify-center items-center flex-1 space-y-3"></span>{" "}
+                              {nftsData.itemsRedeemed}/{nftsData.itemsAvailable} MINTED
+                            </h1>
+                             )}
+                          </div>
                         <MintMany />
                       </div>
                     </>
@@ -139,16 +145,8 @@ export default function Home() {
               )}
             </>
           ) : (
-            <p>connect wallet to mint</p>
+            <h1 className="mb-10 text-2xl font-bold">Connect Wallet to Mint</h1>
           )}
-        </div>
-        <div className="flex flex-col w-full">
-          <h2 className="text-2xl font-bold">my weenees</h2>
-          <div className="flex mt-3 gap-x-2">
-            {(nfts as any).map((nft: any, i: number) => {
-              return <AnNFT key={i} nft={nft} />;
-            })}
-          </div>
         </div>
       </div>
     </>
